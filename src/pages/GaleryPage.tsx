@@ -11,6 +11,7 @@ import Select from '../components/Select';
 import UploadImage from '../components/UploadImage';
 import { selectFavorites } from '../redux/slices/FavoritesSlice';
 
+type PickFile = Pick<File, 'name'>;
 interface IResponseAxios {
   message: string[],
   success: string
@@ -34,6 +35,14 @@ const GaleryPage: FC = () => {
     const files = Array.from(e.dataTransfer.files);
     const validFiles = files.filter((file) => file instanceof File);
     setUploadedFiles((prevFiles) => [...validFiles, ...prevFiles]);
+  };
+
+  const handleDeleteAxiosImage = (file : string) => {
+    setAxiosFiles(axiosFiles.filter((imageStr) => imageStr !== file));
+  };
+
+  const handleDeleteUploadImage = (file: PickFile) => {
+    setUploadedFiles(uploadedFiles.filter((item) => file.name !== item.name));
   };
 
   useEffect(() => {
@@ -63,12 +72,12 @@ const GaleryPage: FC = () => {
               <div className="main-left_images-wrapper">
                 {
                   uploadedFiles.map((file, index) => (
-                    <UploadImage arrayFavorites={favoritesUploads} file={file} key={index} />
+                    <UploadImage arrayFavorites={favoritesUploads} file={file} fnDeleteImage={handleDeleteUploadImage} key={index} />
                   ))
                 }
                 {
                   axiosFiles.map((file, index) => (
-                    <AxiosImage arrayFavorites={favoritesAxios} file={file} key={index} />
+                    <AxiosImage arrayFavorites={favoritesAxios} file={file} fnDeleteImage={handleDeleteAxiosImage} key={index} />
                   ))
                 }
               </div>

@@ -9,10 +9,11 @@ import { AppDispatch } from '../redux/store';
 interface IAxiosImageProps {
   arrayFavorites: string[]
   file: string,
+  fnDeleteImage: (file : string) => void
   key: number,
 }
 
-const AxiosImage: FC<Omit<IAxiosImageProps, 'key'>> = ({ arrayFavorites, file }) => {
+const AxiosImage: FC<Omit<IAxiosImageProps, 'key'>> = ({ arrayFavorites, file, fnDeleteImage }) => {
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const [isHoveredLike, setIsHoveredLike] = useState<boolean>(false);
   const isLiked = arrayFavorites.includes(file);
@@ -58,7 +59,16 @@ const AxiosImage: FC<Omit<IAxiosImageProps, 'key'>> = ({ arrayFavorites, file })
       >
         {isHoveredLike || isLiked ? <FaHeart /> : <FaRegHeart />}
       </button>
-      {isHovered && <button className="main-left_images-item_button delete" type="button"><FaRegTrashAlt /></button>}
+      {isHovered
+        && (
+        <button
+          className="main-left_images-item_button delete"
+          onClick={() => fnDeleteImage(file)}
+          type="button"
+        >
+          <FaRegTrashAlt />
+        </button>
+        )}
 
     </div>
   );

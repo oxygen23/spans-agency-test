@@ -6,15 +6,19 @@ import { useDispatch } from 'react-redux';
 import { changeFavoritesUploads } from '../redux/slices/FavoritesSlice';
 import { AppDispatch } from '../redux/store';
 
+type PickFile = Pick<File, 'name'>;
 interface IUploadImageProps {
   arrayFavorites: File[]
   file: File,
+  fnDeleteImage: (file: PickFile) => void
   key: number,
 }
 
-const UploadImage: FC<Omit<IUploadImageProps, 'key'>> = ({ arrayFavorites, file }) => {
+const UploadImage: FC<Omit<IUploadImageProps, 'key'>> = ({ arrayFavorites, file, fnDeleteImage }) => {
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const [isHoveredLike, setIsHoveredLike] = useState<boolean>(false);
+
+  const isLiked = arrayFavorites.find((item) => item.name === file.name);
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -51,9 +55,18 @@ const UploadImage: FC<Omit<IUploadImageProps, 'key'>> = ({ arrayFavorites, file 
         onMouseLeave={handleMouseLeaveLike}
         type="button"
       >
-        {isHoveredLike ? <FaHeart /> : <FaRegHeart />}
+        {isHoveredLike || isLiked ? <FaHeart /> : <FaRegHeart />}
       </button>
-      {isHovered && <button className="main-left_images-item_button delete" type="button"><FaRegTrashAlt /></button>}
+      {isHovered
+        && (
+        <button
+          className="main-left_images-item_button delete"
+          onClick={() => fnDeleteImage(file)}
+          type="button"
+        >
+          <FaRegTrashAlt />
+        </button>
+        )}
 
     </div>
   );
