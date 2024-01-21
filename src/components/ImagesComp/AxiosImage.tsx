@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { FC, useState } from 'react';
 import { FaRegTrashAlt } from 'react-icons/fa';
 
@@ -62,13 +63,15 @@ const AxiosImage: FC<Omit<IAxiosImageProps, 'key'>> = ({ arrayFavorites, file, f
       </button>
       {isHovered
         && (
-        <button
+        <motion.button
           className={`${styles.main_left__images_item_button} ${styles.delete}`}
           onClick={() => fnDeleteImage(file)}
           type="button"
+          whileHover={{ scale: 1.4 }}
+          whileTap={{ scale: 1 }}
         >
           <FaRegTrashAlt />
-        </button>
+        </motion.button>
         )}
 
     </div>

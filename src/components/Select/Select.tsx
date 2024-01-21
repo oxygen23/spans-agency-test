@@ -75,6 +75,8 @@ const Select: FC = () => {
             : `${styles.main_left__select_list_item}`}
           onClick={handleCurrentFilter('All')}
           variants={itemVariants}
+          whileHover={{ scale: 1.2, translateX: '14px' }}
+          whileTap={{ scale: 1, translateX: '0px' }}
         >
           All
         </motion.li>
@@ -84,6 +86,8 @@ const Select: FC = () => {
             : `${styles.main_left__select_list_item}`}
           onClick={handleCurrentFilter('Favorite')}
           variants={itemVariants}
+          whileHover={{ scale: 1.2, translateX: '14px' }}
+          whileTap={{ scale: 1, translateX: '0px' }}
         >
           Favorite
         </motion.li>
@@ -93,6 +97,8 @@ const Select: FC = () => {
             : `${styles.main_left__select_list_item}`}
           onClick={handleCurrentFilter('Old')}
           variants={itemVariants}
+          whileHover={{ scale: 1.2, translateX: '14px' }}
+          whileTap={{ scale: 1, translateX: '0px' }}
         >
           Old
         </motion.li>
@@ -102,6 +108,8 @@ const Select: FC = () => {
             : `${styles.main_left__select_list_item}`}
           onClick={handleCurrentFilter('New')}
           variants={itemVariants}
+          whileHover={{ scale: 1.2, translateX: '14px' }}
+          whileTap={{ scale: 1, translateX: '0px' }}
         >
           New
         </motion.li>
