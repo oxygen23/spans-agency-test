@@ -8,11 +8,13 @@ import { selectLogin } from './redux/slices/LoginSlice';
 import './styles/index.sass';
 
 const App = () => {
-  const state = useSelector(selectLogin);
+  const { email, name } = useSelector(selectLogin);
   const [isLogin, setIsLogin] = useState<boolean>(false);
+  // isLogin to LocalStorage
   useEffect(() => {
-    setIsLogin(state.name !== '' && state.email !== '');
-  }, [state]);
+    setIsLogin(name !== '' && email !== '');
+  }, [email, name]);
+
   return (
     <div className="App">
       <Routes>

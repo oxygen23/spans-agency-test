@@ -1,10 +1,10 @@
 import { FC, useState } from 'react';
-import { FaRegHeart, FaRegTrashAlt } from 'react-icons/fa';
-import { FaHeart } from 'react-icons/fa6';
-import { useDispatch } from 'react-redux';
+import { FaRegTrashAlt } from 'react-icons/fa';
 
-import { changeFavoritesAxios } from '../redux/slices/FavoritesSlice';
-import { AppDispatch } from '../redux/store';
+import Heart from '../../images/icons/Heart';
+import { changeFavoritesAxios } from '../../redux/slices/FavoritesSlice';
+import { useAppDispatch } from '../../redux/store';
+import styles from './Image.module.sass';
 
 interface IAxiosImageProps {
   arrayFavorites: string[]
@@ -17,7 +17,8 @@ const AxiosImage: FC<Omit<IAxiosImageProps, 'key'>> = ({ arrayFavorites, file, f
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const [isHoveredLike, setIsHoveredLike] = useState<boolean>(false);
   const isLiked = arrayFavorites.includes(file);
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch = useAppDispatch();
+
   const handleMouseEnter = () => {
     setIsHovered(true);
   };
@@ -39,30 +40,30 @@ const AxiosImage: FC<Omit<IAxiosImageProps, 'key'>> = ({ arrayFavorites, file, f
 
   return (
     <div
-      className="main-left_images-item"
+      className={`${styles.main_left__images_item}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       <button
-        className="main-left_images-item"
+        className={`${styles.main_left__images_item}`}
         onClick={handleChangeFavorites}
         type="button"
       >
         <img alt="" src={file} />
       </button>
       <button
-        className="main-left_images-item_button like"
+        className={`${styles.main_left__images_item_button} ${styles.like}`}
         onClick={handleChangeFavorites}
         onMouseEnter={handleMouseEnterLike}
         onMouseLeave={handleMouseLeaveLike}
         type="button"
       >
-        {isHoveredLike || isLiked ? <FaHeart /> : <FaRegHeart />}
+        <Heart color={(isHoveredLike || isLiked) ? 'white' : ''} />
       </button>
       {isHovered
         && (
         <button
-          className="main-left_images-item_button delete"
+          className={`${styles.main_left__images_item_button} ${styles.delete}`}
           onClick={() => fnDeleteImage(file)}
           type="button"
         >

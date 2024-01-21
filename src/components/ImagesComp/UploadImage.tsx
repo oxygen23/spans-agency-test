@@ -1,10 +1,11 @@
 import { FC, useMemo, useState } from 'react';
 import { FaRegHeart, FaRegTrashAlt } from 'react-icons/fa';
 import { FaHeart } from 'react-icons/fa6';
-import { useDispatch } from 'react-redux';
 
-import { changeFavoritesUploads } from '../redux/slices/FavoritesSlice';
-import { AppDispatch } from '../redux/store';
+import Heart from '../../images/icons/Heart';
+import { changeFavoritesUploads } from '../../redux/slices/FavoritesSlice';
+import { AppDispatch, useAppDispatch } from '../../redux/store';
+import styles from './Image.module.sass';
 
 type PickFile = Pick<File, 'name'>;
 interface IUploadImageProps {
@@ -20,47 +21,56 @@ const UploadImage: FC<Omit<IUploadImageProps, 'key'>> = ({ arrayFavorites, file,
 
   const isLiked = arrayFavorites.find((item) => item.name === file.name);
 
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch: AppDispatch = useAppDispatch();
 
-  const handleChangeFavorites = () => {
+  const handleChangeFavorites = (): void => {
     dispatch(changeFavoritesUploads(file));
   };
   const uploadImage = useMemo(() => URL.createObjectURL(file), [file]);
 
-  const handleMouseEnter = () => {
+  const handleMouseEnter = (): void => {
     setIsHovered(true);
   };
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = (): void => {
     setIsHovered(false);
   };
 
-  const handleMouseEnterLike = () => {
+  const handleMouseEnterLike = (): void => {
     setIsHoveredLike(true);
   };
-  const handleMouseLeaveLike = () => {
+
+  const handleMouseLeaveLike = (): void => {
     setIsHoveredLike(false);
   };
+
   return (
     <div
-      className="main-left_images-item"
+      className={`${styles.main_left__images_item}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <button className="main-left_images-item" onClick={() => console.log('Клик!')} type="button"><img alt="" src={uploadImage} /></button>
       <button
-        className="main-left_images-item_button like"
+        className={`${styles.main_left__images_item}`}
+        onClick={() => console.log('Клик!')}
+        type="button"
+      >
+        <img alt="" src={uploadImage} />
+
+      </button>
+      <button
+        className={`${styles.main_left__images_item_button} ${styles.like}`}
         onClick={handleChangeFavorites}
         onMouseEnter={handleMouseEnterLike}
         onMouseLeave={handleMouseLeaveLike}
         type="button"
       >
-        {isHoveredLike || isLiked ? <FaHeart /> : <FaRegHeart />}
+        <Heart color={(isHoveredLike || isLiked) ? 'white' : ''} />
       </button>
       {isHovered
         && (
         <button
-          className="main-left_images-item_button delete"
+          className={`${styles.main_left__images_item_button} ${styles.delete}`}
           onClick={() => fnDeleteImage(file)}
           type="button"
         >

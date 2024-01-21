@@ -3,11 +3,11 @@ import {
   FormEvent,
   useState,
 } from 'react';
-import { useDispatch } from 'react-redux';
 
 import { login } from '../../redux/slices/LoginSlice';
-import { AppDispatch } from '../../redux/store';
+import { AppDispatch, useAppDispatch } from '../../redux/store';
 import { FormSignUpData } from '../../types/Form';
+import styles from './Login.module.sass';
 
 const SignupForm: FC = () => {
   const initialState: FormSignUpData = {
@@ -15,7 +15,7 @@ const SignupForm: FC = () => {
     name: '',
   };
 
-  const dispatch:AppDispatch = useDispatch();
+  const dispatch:AppDispatch = useAppDispatch();
   const [formData, setFormData] = useState<FormSignUpData>(initialState);
 
   function handleChangeInput(event: ChangeEvent<HTMLInputElement>) {
@@ -26,22 +26,59 @@ const SignupForm: FC = () => {
     }));
   }
 
-  function handleSubmitForm() {
+  function handleSubmitForm(e: FormEvent) {
+    e.preventDefault();
     dispatch(login(formData));
     setFormData(initialState);
   }
+
   return (
-    <>
-      <form className="login-left_form">
-        <label className="login-left_form-label" htmlFor="name"> What&apos;s your name?*</label>
-        <input className="login-left_form-input" id="name" name="name" onChange={handleChangeInput} placeholder=" " type="text" value={formData.name} />
+    <form
+      className={`${styles.login_left__form}`}
+      onSubmit={handleSubmitForm}
+    >
+      <label
+        className={`${styles.login_left__form_label}`}
+        htmlFor="name"
+      >
+        What&apos;s your name?*
 
-        <label className="login-left_form-label" htmlFor="email">Your Email*</label>
-        <input className="login-left_form-input" id="email" name="email" onChange={handleChangeInput} placeholder=" " type="text" value={formData.email} />
+      </label>
+      <input
+        className={`${styles.login_left__form_input}`}
+        id="name"
+        name="name"
+        onChange={handleChangeInput}
+        placeholder=" "
+        type="text"
+        value={formData.name}
+      />
 
-      </form>
-      <button className="login-left_button-submit" onClick={handleSubmitForm} type="button">Next</button>
-    </>
+      <label
+        className={`${styles.login_left__form_label}`}
+        htmlFor="email"
+      >
+        Your Email*
+
+      </label>
+      <input
+        className={`${styles.login_left__form_input}`}
+        id="email"
+        name="email"
+        onChange={handleChangeInput}
+        placeholder=" "
+        type="text"
+        value={formData.email}
+      />
+
+      <button
+        className={`${styles.login_left__button_submit}`}
+        type="submit"
+      >
+        Next
+
+      </button>
+    </form>
   );
 };
 

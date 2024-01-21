@@ -1,15 +1,17 @@
 import axios, { AxiosResponse } from 'axios';
 import {
+  DragEvent,
   FC,
-  useEffect, useState,
+  useEffect, useMemo, useState,
 } from 'react';
 import { useSelector } from 'react-redux';
 
-import AxiosImage from '../components/AxiosImage';
-import Header from '../components/Header';
-import Select from '../components/Select';
-import UploadImage from '../components/UploadImage';
+import Header from '../components/Header/Header';
+import AxiosImage from '../components/ImagesComp/AxiosImage';
+import UploadImage from '../components/ImagesComp/UploadImage';
+import Select from '../components/Select/Select';
 import { selectFavorites } from '../redux/slices/FavoritesSlice';
+import styles from './GaleryPage.module.sass';
 
 type PickFile = Pick<File, 'name'>;
 interface IResponseAxios {
@@ -19,29 +21,30 @@ interface IResponseAxios {
 const GaleryPage: FC = () => {
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [axiosFiles, setAxiosFiles] = useState<string[]>([]);
+  const memoizedAxiosFiles = useMemo(() => axiosFiles, [axiosFiles]);
 
   const { favoritesAxios, favoritesUploads } = useSelector(selectFavorites);
 
-  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+  const handleDragOver = (e: DragEvent<HTMLDivElement>): void => {
     e.preventDefault();
   };
 
-  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+  const handleDragLeave = (e: DragEvent<HTMLDivElement>): void => {
     e.preventDefault();
   };
 
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+  const handleDrop = (e: DragEvent<HTMLDivElement>): void => {
     e.preventDefault();
     const files = Array.from(e.dataTransfer.files);
     const validFiles = files.filter((file) => file instanceof File);
     setUploadedFiles((prevFiles) => [...validFiles, ...prevFiles]);
   };
 
-  const handleDeleteAxiosImage = (file : string) => {
+  const handleDeleteAxiosImage = (file : string): void => {
     setAxiosFiles(axiosFiles.filter((imageStr) => imageStr !== file));
   };
 
-  const handleDeleteUploadImage = (file: PickFile) => {
+  const handleDeleteUploadImage = (file: PickFile): void => {
     setUploadedFiles(uploadedFiles.filter((item) => file.name !== item.name));
   };
 
@@ -49,7 +52,6 @@ const GaleryPage: FC = () => {
     axios.get('https://dog.ceo/api/breed/hound/images/random/20')
       .then((response: AxiosResponse<IResponseAxios>) => setAxiosFiles(response.data.message))
       .catch((error) => console.log(error));
-    console.log('rerender');
   }, []);
   // the second render occurs due to StrictMode
 
@@ -57,33 +59,33 @@ const GaleryPage: FC = () => {
     <>
       <Header />
       <div
-        className="main container"
+        className={`${styles.main} container`}
         onDragLeave={handleDragLeave}
         onDragOver={handleDragOver}
         onDrop={handleDrop}
       >
-        <div className="main-left">
-          <div className="main-left_up-block">
-            <div className="main-left_title">Gallery</div>
+        <div className={`${styles.main_left}`}>
+          <div className={`${styles.main_left__up_block}`}>
+            <div className={`${styles.main_left__title}`}>Gallery</div>
             <Select />
           </div>
           {uploadedFiles.length > 0 || axiosFiles.length > 0
             ? (
-              <div className="main-left_images-wrapper">
+              <div className={`${styles.main_left__images_wrapper}`}>
                 {
                   uploadedFiles.map((file, index) => (
                     <UploadImage arrayFavorites={favoritesUploads} file={file} fnDeleteImage={handleDeleteUploadImage} key={index} />
                   ))
                 }
                 {
-                  axiosFiles.map((file, index) => (
+                  memoizedAxiosFiles.map((file, index) => (
                     <AxiosImage arrayFavorites={favoritesAxios} file={file} fnDeleteImage={handleDeleteAxiosImage} key={index} />
                   ))
                 }
               </div>
-            ) : <div className="main-left_empty">Gallery is empty</div>}
+            ) : <div className={`${styles.main_left__empty}`}>Gallery is empty</div>}
         </div>
-        <div className="main-right" />
+        <div className={`${styles.main_right}`} />
       </div>
     </>
   );

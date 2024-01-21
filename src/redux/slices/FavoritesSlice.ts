@@ -1,11 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-type PickFile = Pick<File, 'lastModified' | 'name' | 'size' | 'type' | 'webkitRelativePath'>;
-
-interface IFavorites {
-  favoritesAxios: string[],
-  favoritesUploads: File[] & PickFile[]
-}
+import { IFavorites, PickFile } from '../../types/Redux';
 
 const initialState: IFavorites = {
   favoritesAxios: [],

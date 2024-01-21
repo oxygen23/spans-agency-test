@@ -1,6 +1,8 @@
 import { Variants, motion } from 'framer-motion';
 import { FC, MouseEventHandler, useState } from 'react';
 
+import styles from './Select.module.sass';
+
 const itemVariants: Variants = {
   closed: { opacity: 0, transition: { duration: 0.2 }, y: 20 },
   open: {
@@ -17,14 +19,15 @@ const Select: FC = () => {
   const handleCurrentFilter = (filterProp: string): MouseEventHandler<HTMLLIElement> => () => {
     setCurrentFilter(filterProp);
   };
+
   return (
     <motion.nav
       animate={isOpen ? 'open' : 'closed'}
-      className="main-left_select"
+      className={`${styles.main_left__select}`}
       initial={false}
     >
       <motion.button
-        className="main-left_select-button"
+        className={`${styles.main_left__select_button}`}
         onClick={() => setIsOpen(!isOpen)}
         whileTap={{ scale: 0.97 }}
       >
@@ -43,7 +46,7 @@ const Select: FC = () => {
         </motion.div>
       </motion.button>
       <motion.ul
-        className="main-left_select-list"
+        className={`${styles.main_left__select_list}`}
         style={{ pointerEvents: isOpen ? 'auto' : 'none' }}
         variants={{
           closed: {
@@ -67,40 +70,40 @@ const Select: FC = () => {
         }}
       >
         <motion.li
-          className={currentFilter === 'All' ? 'main-left_select-list_item active' : 'main-left_select-list_item'}
+          className={currentFilter === 'All'
+            ? `${styles.main_left__select_list_item} ${styles.active}`
+            : `${styles.main_left__select_list_item}`}
           onClick={handleCurrentFilter('All')}
           variants={itemVariants}
         >
           All
-          {' '}
-
         </motion.li>
         <motion.li
-          className={currentFilter === 'Favorite' ? 'main-left_select-list_item active' : 'main-left_select-list_item'}
+          className={currentFilter === 'Favorite'
+            ? `${styles.main_left__select_list_item} ${styles.active}`
+            : `${styles.main_left__select_list_item}`}
           onClick={handleCurrentFilter('Favorite')}
           variants={itemVariants}
         >
           Favorite
-          {' '}
-
         </motion.li>
         <motion.li
-          className={currentFilter === 'Old' ? 'main-left_select-list_item active' : 'main-left_select-list_item'}
+          className={currentFilter === 'Old'
+            ? `${styles.main_left__select_list_item} ${styles.active}`
+            : `${styles.main_left__select_list_item}`}
           onClick={handleCurrentFilter('Old')}
           variants={itemVariants}
         >
           Old
-          {' '}
-
         </motion.li>
         <motion.li
-          className={currentFilter === 'New' ? 'main-left_select-list_item active' : 'main-left_select-list_item'}
+          className={currentFilter === 'New'
+            ? `${styles.main_left__select_list_item} ${styles.active}`
+            : `${styles.main_left__select_list_item}`}
           onClick={handleCurrentFilter('New')}
           variants={itemVariants}
         >
           New
-          {' '}
-
         </motion.li>
       </motion.ul>
     </motion.nav>
