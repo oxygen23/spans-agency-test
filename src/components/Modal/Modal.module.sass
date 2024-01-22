@@ -1,0 +1,64 @@
+.modal
+  position: relative
+  display: flex
+  flex-direction: column
+  align-items: center
+  padding: 48px
+  width: 448px
+  height: 590px
+  background-color: #F2F5FF
+  border-radius: 32px
+  &_closed
+    position: absolute
+    display: flex
+    align-items: center
+    justify-content: center
+    right: 24px
+    top: 24px
+    width: 32px
+    height: 32px
+    border-radius: 30px
+    border: 1px solid #C9CCD9
+    & img
+      width: 12px
+      height: 12px
+  &_wrapper
+    position: fixed
+    display: flex
+    justify-content: center
+    align-items: center
+    top: 0
+    z-index: 11000
+    width: 100%
+    height: 100%
+    background: rgba(125, 149, 252, 0.60)
+    backdrop-filter: blur(2px)
+  &_image
+    width: 320px
+    height: 320px
+    border-radius: 32px
+    overflow: hidden
+    margin-bottom: 24px
+    & img
+      object-fit: cover
+      object-position: center
+      width: 100%
+      height: 100%
+  &_text
+    font-size: 32px
+    font-family: 'Navigo-Medium'
+    text-align: center
+    margin-bottom: 24px
+  &_link
+    display: flex
+    align-items: center
+    justify-content: space-between
+    width: 100%
+    height: 56px
+    padding: 14px 24px
+    border-radius: 30px
+    font-size: 18px
+    background-color: #FFFFFF
+    color: #A8ADC8
+    & button
+      background: none

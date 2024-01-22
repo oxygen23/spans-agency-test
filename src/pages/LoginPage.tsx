@@ -4,7 +4,7 @@ import {
 
 import SignupForm from '../components/Form/SignupForm';
 import {
-  OrPng, Social, Social2, Social3,
+  OrPng, Social, Social2, Social3, imageLogin,
 } from '../images/index';
 import styles from './LoginPage.module.sass';
 
@@ -42,7 +42,6 @@ const LoginPage: FC = () => {
               type="button"
             >
               Sign up
-
             </button>
           </div>
           <div className={`${styles.login_left__icons}`}>
@@ -53,7 +52,13 @@ const LoginPage: FC = () => {
           <img alt="" src={OrPng} />
           <SignupForm />
         </div>
-        <div className={`${styles.login_right}`} />
+        <div className={`${styles.login_right}`}>
+          <p>
+            Try out
+            <span> AI’s features</span>
+          </p>
+          <img alt="" src={imageLogin} />
+        </div>
       </div>
     </div>
   );

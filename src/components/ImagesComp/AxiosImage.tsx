@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { FC, useState } from 'react';
 import { FaRegTrashAlt } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 import Heart from '../../images/icons/Heart';
 import { changeFavoritesAxios } from '../../redux/slices/FavoritesSlice';
@@ -10,13 +11,20 @@ import styles from './Image.module.sass';
 interface IAxiosImageProps {
   arrayFavorites: string[]
   file: string,
-  fnDeleteImage: (file : string) => void
+  fnDeleteImage: (file: string) => void
   key: number,
+  openImage: (file: string) => void
 }
 
-const AxiosImage: FC<Omit<IAxiosImageProps, 'key'>> = ({ arrayFavorites, file, fnDeleteImage }) => {
+const AxiosImage: FC<Omit<IAxiosImageProps, 'key'>> = ({
+  arrayFavorites,
+  file,
+  fnDeleteImage,
+  openImage,
+}) => {
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const [isHoveredLike, setIsHoveredLike] = useState<boolean>(false);
+
   const isLiked = arrayFavorites.includes(file);
   const dispatch = useAppDispatch();
 
@@ -38,20 +46,21 @@ const AxiosImage: FC<Omit<IAxiosImageProps, 'key'>> = ({ arrayFavorites, file, f
   const handleChangeFavorites = () => {
     dispatch(changeFavoritesAxios(file));
   };
-
   return (
     <div
       className={`${styles.main_left__images_item}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <button
-        className={`${styles.main_left__images_item}`}
-        onClick={handleChangeFavorites}
-        type="button"
-      >
-        <img alt="" src={file} />
-      </button>
+      <Link to={`/${file.replace('https://', '')}`}>
+        <button
+          className={`${styles.main_left__images_item}`}
+          onClick={() => openImage(file)}
+          type="button"
+        >
+          <img alt="" src={file} />
+        </button>
+      </Link>
       <button
         className={`${styles.main_left__images_item_button} ${styles.like}`}
         onClick={handleChangeFavorites}
@@ -73,7 +82,6 @@ const AxiosImage: FC<Omit<IAxiosImageProps, 'key'>> = ({ arrayFavorites, file, f
           <FaRegTrashAlt />
         </motion.button>
         )}
-
     </div>
   );
 };

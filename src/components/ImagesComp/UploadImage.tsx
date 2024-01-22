@@ -1,6 +1,7 @@
+import { motion } from 'framer-motion';
 import { FC, useMemo, useState } from 'react';
-import { FaRegHeart, FaRegTrashAlt } from 'react-icons/fa';
-import { FaHeart } from 'react-icons/fa6';
+import { FaRegTrashAlt } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 import Heart from '../../images/icons/Heart';
 import { changeFavoritesUploads } from '../../redux/slices/FavoritesSlice';
@@ -13,9 +14,15 @@ interface IUploadImageProps {
   file: File,
   fnDeleteImage: (file: PickFile) => void
   key: number,
+  openImage: (file: File) => void
 }
 
-const UploadImage: FC<Omit<IUploadImageProps, 'key'>> = ({ arrayFavorites, file, fnDeleteImage }) => {
+const UploadImage: FC<Omit<IUploadImageProps, 'key'>> = ({
+  arrayFavorites,
+  file,
+  fnDeleteImage,
+  openImage,
+}) => {
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const [isHoveredLike, setIsHoveredLike] = useState<boolean>(false);
 
@@ -23,9 +30,6 @@ const UploadImage: FC<Omit<IUploadImageProps, 'key'>> = ({ arrayFavorites, file,
 
   const dispatch: AppDispatch = useAppDispatch();
 
-  const handleChangeFavorites = (): void => {
-    dispatch(changeFavoritesUploads(file));
-  };
   const uploadImage = useMemo(() => URL.createObjectURL(file), [file]);
 
   const handleMouseEnter = (): void => {
@@ -44,20 +48,27 @@ const UploadImage: FC<Omit<IUploadImageProps, 'key'>> = ({ arrayFavorites, file,
     setIsHoveredLike(false);
   };
 
+  const handleChangeFavorites = (): void => {
+    dispatch(changeFavoritesUploads(file));
+  };
+
   return (
     <div
       className={`${styles.main_left__images_item}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-    >
-      <button
-        className={`${styles.main_left__images_item}`}
-        onClick={() => console.log('Клик!')}
-        type="button"
-      >
-        <img alt="" src={uploadImage} />
 
-      </button>
+    >
+      <Link to={`/${file.name}`}>
+        <button
+          className={`${styles.main_left__images_item}`}
+          onClick={() => openImage(file)}
+          type="button"
+        >
+          <img alt="" src={uploadImage} />
+
+        </button>
+      </Link>
       <button
         className={`${styles.main_left__images_item_button} ${styles.like}`}
         onClick={handleChangeFavorites}
@@ -69,13 +80,15 @@ const UploadImage: FC<Omit<IUploadImageProps, 'key'>> = ({ arrayFavorites, file,
       </button>
       {isHovered
         && (
-        <button
+        <motion.button
           className={`${styles.main_left__images_item_button} ${styles.delete}`}
           onClick={() => fnDeleteImage(file)}
           type="button"
+          whileHover={{ scale: 1.4 }}
+          whileTap={{ scale: 1 }}
         >
           <FaRegTrashAlt />
-        </button>
+        </motion.button>
         )}
 
     </div>

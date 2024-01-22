@@ -18,7 +18,7 @@ const App = () => {
   return (
     <div className="App">
       <Routes>
-        <Route element={true ? <GaleryPage /> : <LoginPage />} path="/" />
+        <Route element={isLogin ? <GaleryPage /> : <LoginPage />} path="/*" />
       </Routes>
     </div>
   );

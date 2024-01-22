@@ -1,9 +1,15 @@
-import { FC } from 'react';
+import { ChangeEvent, FC, RefObject } from 'react';
 
 import { Avatar, Logo } from '../../images/index';
 import styles from './Header.module.sass';
 
-const Header: FC = () => (
+interface HeaderProps {
+  fileRef: RefObject<HTMLInputElement>
+  handleButtonClick: () => void
+  handleFileChange: (event: ChangeEvent<HTMLInputElement>) => void
+}
+
+const Header: FC<HeaderProps> = ({ fileRef, handleButtonClick, handleFileChange }) => (
   <header className={`container ${styles.header} `}>
     <div className="header_left">
       <img alt="logo" src={Logo} />
@@ -17,7 +23,16 @@ const Header: FC = () => (
       <div>
         <img alt="" className={`${styles.header_right__image}`} src={Avatar} />
       </div>
-      <button className={`${styles.header_right__button}`} type="button">Make magic</button>
+      <button className={`${styles.header_right__button}`} onClick={handleButtonClick} type="button">
+        Make magic
+        <input
+          onChange={handleFileChange}
+          ref={fileRef}
+          style={{ display: 'none' }}
+          type="file"
+        />
+
+      </button>
     </div>
   </header>
 );

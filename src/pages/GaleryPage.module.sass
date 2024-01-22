@@ -1,5 +1,8 @@
 .main
+  display: flex
+  justify-content: space-between
   max-height: 100%
+  width: 100%
   padding: 32px 24px !important
   &_left
     width: 80%
@@ -20,8 +23,58 @@
       grid-template-columns: repeat(auto-fill, 268px)
       justify-content: space-between
       gap: 15px
+      margin-bottom: 32px
     &__empty
       color: #E0E7FF
       font-size: 48px
       margin-bottom: 48px
+    &__load
+      color: #6B7AFF
+      background: rgba(125, 149, 252, 0.08)
+      height: 40px
+      padding: 8px 20px
+      font-size: 20px
+      border-radius: 1000px
+      &_wrapper
+        width: 100%
+        display: flex
+        justify-content: center
   &_right
+    width: 18%
+    &__button
+      background-color: #fff
+      width: 100%
+      height: 220px
+      border-radius: 30px
+      color: #FF61E6
+      font-size: 30px
+      padding: 10px
+      margin-bottom: 24px
+      &_wrapper
+        display: flex
+        flex-direction: column
+        align-items: center
+        justify-content: center
+        width: 100%
+        height: 100%
+        border-radius: 30px
+        border: 2px dashed #FF61E6
+      &__img_wrapper
+        display: flex
+        align-items: center
+        justify-content: center
+        width: 100px
+        height: 100px
+        background-color: #FFF5FD
+        border-radius: 50px
+        margin-bottom: 10px
+        & img
+          width: 60px
+          height: 60px
+          object-fit: cover
+          object-position: center
+    &__banner
+      width: 100%
+      height: 500px
+      & img
+        object-fit: cover
